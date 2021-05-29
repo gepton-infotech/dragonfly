@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:milkton_executive/app/views/login/loginScreen.dart';
+import 'package:milkton_executive/app/views/splash/splashView.dart';
 import 'package:milkton_executive/configs/routes.dart';
 import 'package:milkton_executive/configs/theme.dart';
 
@@ -10,7 +10,7 @@ class MilktonApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Milkton App',
-      home: LoginView(),
+      home: SplashScreen(),
       theme: appTheme(),
       getPages: namedRoues,
     );

@@ -6,7 +6,7 @@ ThemeData appTheme() {
       primaryColor: kPrimaryColor,
       bottomAppBarColor: kWhite,
       primaryColorLight: kWhite,
-      primaryColorDark: kRaisinBlack,
+      primaryColorDark: kTangyYellow,
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
         primary: kDarkBlue,

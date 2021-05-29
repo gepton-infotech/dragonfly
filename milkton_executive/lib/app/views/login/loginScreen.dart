@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:milkton_executive/app/views/home/homeScreen.dart';
+import 'package:milkton_executive/app/views/home/homeView.dart';
 import 'package:milkton_executive/constants/color_constant.dart';
 import 'package:milkton_executive/services/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -83,28 +84,7 @@ class _LoginViewState extends State<LoginView> {
                     width: size.width * 0.90,
                     height: size.height * 0.06,
                     child: ElevatedButton(
-                      onPressed: () async {
-                        var data = await checkCredentials(phone, password);
-                        if (data != null) {
-                          print(data);
-                          if (data['status'] == 'Authenticated') {
-                            Get.offAll(HomeView());
-                          } else if (data['status'] == 'Wrong Password') {
-                            Get.snackbar('Wrong Password:',
-                                'The password which you entered is invalid',
-                                backgroundColor: kDarkBlue, colorText: kWhite);
-                          } else if (data['status'] ==
-                              "No such executive exist") {
-                            Get.snackbar("Wrong Phone",
-                                "No user exist with this phone number",
-                                backgroundColor: kDarkBlue, colorText: kWhite);
-                          }
-                        } else {
-                          Get.snackbar('Something went wrong',
-                              'Please contact the admin',
-                              backgroundColor: kDarkBlue, colorText: kWhite);
-                        }
-                      },
+                      onPressed: _authCheck,
                       child: Text(
                         'LOGIN',
                         style: TextStyle(fontSize: 16.0),
@@ -118,5 +98,29 @@ class _LoginViewState extends State<LoginView> {
         )),
       ),
     );
+  }
+
+  _authCheck() async {
+    var data = await checkCredentials(phone, password);
+    if (data != null) {
+      print(data);
+      if (data['status'] == 'Authenticated') {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+        await prefs.setString('executiveID', data['id']);
+        await prefs.setString('phone', data['phone']);
+        Get.offAll(HomeView());
+      } else if (data['status'] == 'Wrong Password') {
+        Get.snackbar(
+            'Wrong Password:', 'The password which you entered is invalid',
+            backgroundColor: kDarkBlue, colorText: kWhite);
+      } else if (data['status'] == "No such executive exist") {
+        Get.snackbar("Wrong Phone", "No user exist with this phone number",
+            backgroundColor: kDarkBlue, colorText: kWhite);
+      }
+    } else {
+      Get.snackbar('Something went wrong', 'Please contact the admin',
+          backgroundColor: kDarkBlue, colorText: kWhite);
+    }
   }
 }

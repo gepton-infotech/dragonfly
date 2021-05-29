@@ -5,6 +5,7 @@ import 'package:milkton_executive/constants/color_constant.dart';
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
@@ -23,13 +24,13 @@ class HomeView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.05,
+                height: size.height * 0.05,
                 padding: EdgeInsets.symmetric(vertical: 10.0),
                 alignment: Alignment.center,
-                color: kRaisinBlack,
+                color: kTangyYellow,
                 child: Text(
                   'Today: ' + today,
-                  style: TextStyle(fontSize: 18.0, color: kWhite),
+                  style: TextStyle(fontSize: 18.0, color: Colors.black),
                 ),
               ),
               Container(
