@@ -1,7 +1,7 @@
 name: milkton_executive
 description: Milkton Executive App
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 4.0.0+40
 
@@ -12,7 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
+  # State Management
+  get: ^4.1.4
+  # Http Requests
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:
