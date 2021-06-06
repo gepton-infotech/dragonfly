@@ -22,6 +22,7 @@ dependencies:
   lottie: ^1.0.1
   # Device Storage
   shared_preferences: ^2.0.6
+  url_launcher: ^6.0.6
 
 dev_dependencies:
   flutter_test:

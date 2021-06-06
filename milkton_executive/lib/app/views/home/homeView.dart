@@ -19,9 +19,6 @@ class _HomeViewState extends State<HomeView> {
   String lastName;
   String firstName;
   List orderList = [];
-  List deliveredOrderList = [];
-  List unDeliveredOrderList = [];
-  List toDeliverOrderList = [];
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -109,9 +106,8 @@ class _HomeViewState extends State<HomeView> {
             }
             if (result.data["executive"] != null) {
               orderList = result.data["executive"]["ordersForToday"];
-              print(orderList);
-              return SingleChildScrollView(
-                child: Center(
+              if (orderList.length > 0) {
+                return Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -137,32 +133,43 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         Container(
                           child: SummaryTable(
-                            toDeliverCount: toDeliverOrderList.length,
-                            deliveredCount: deliveredOrderList.length,
-                            unDeliveredCount: unDeliveredOrderList.length,
+                            toDeliverCount: orderList
+                                .where((i) => i["status"] == 'ACTIVE')
+                                .toList()
+                                .length,
+                            deliveredCount: orderList
+                                .where((i) => i["status"] == 'DELIVERED')
+                                .toList()
+                                .length,
+                            unDeliveredCount: orderList
+                                .where((i) => i["status"] == 'UNDELIVERED')
+                                .toList()
+                                .length,
                           ),
                         ),
-                        Container(
+                        Expanded(
                           child: ListView.builder(
                               itemCount: orderList.length,
                               itemBuilder: (context, index) {
                                 return OrderCard(
-                                  firstName: "Abhibhaw",
-                                  lastName: "Asthana",
-                                  phone: "7754949803",
-                                  address: "ABC Apartment",
-                                  products: [
-                                    {"productID": "123", "quantity": "13"},
-                                    {"productID": "456", "quantity": "238"}
-                                  ],
+                                  firstName: orderList[index]["customer"]
+                                      ["firstName"],
+                                  lastName: orderList[index]["customer"]
+                                      ["lastName"],
+                                  phone: orderList[index]["customer"]["phone"],
+                                  address: orderList[index]["address"]["name"],
+                                  products: orderList[index]["items"],
+                                  isSub: orderList[index]["isSub"],
+                                  status: orderList[index]["status"],
                                 );
                               }),
                         ),
                       ],
                     ),
                   ),
-                ),
-              );
+                );
+              }
+              return Center(child: Text('No order for you'));
             }
             return Text('Just a moment...');
           }),

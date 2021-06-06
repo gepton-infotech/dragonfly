@@ -11,6 +11,8 @@ query OrderForToday(\$id: String)
         long
       }
       comment
+      status
+      isSub
       customer {
         firstName
         lastName
