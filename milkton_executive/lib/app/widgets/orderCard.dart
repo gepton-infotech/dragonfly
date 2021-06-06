@@ -3,12 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:milkton_executive/constants/color_constant.dart';
+import 'package:milkton_executive/graphql/addTransaction.dart';
 import 'package:milkton_executive/graphql/markOrderMutation.dart';
 import 'package:milkton_executive/graphql/productsQuery.dart';
 import 'package:milkton_executive/services/url_launcher.dart';
 
+final DateTime _today = new DateTime.now();
+
 class OrderCard extends StatelessWidget {
   final TextEditingController _quantityController = TextEditingController();
+  final String customerID;
   final String firstName;
   final String lastName;
   final String phone;
@@ -21,7 +25,8 @@ class OrderCard extends StatelessWidget {
   List allProductsData = [];
 
   OrderCard(
-      {this.orderID,
+      {this.customerID,
+      this.orderID,
       this.firstName,
       this.lastName,
       this.address,
@@ -163,10 +168,70 @@ class OrderCard extends StatelessWidget {
                                               ),
                                             ),
                                           Expanded(child: Container()),
-                                          ElevatedButton(
-                                              onPressed: () =>
-                                                  Get.snackbar("h", "g"),
-                                              child: Text('MARK DELIVERED'))
+                                          Mutation(
+                                              options: MutationOptions(
+                                                document: gql(addTransaction),
+                                                update: (GraphQLDataProxy
+                                                        transCache,
+                                                    QueryResult transResult) {
+                                                  return transCache;
+                                                },
+                                                onError: (error) =>
+                                                    print(error),
+                                                onCompleted:
+                                                    (dynamic transResultData) {
+                                                  print(transResultData);
+                                                },
+                                              ),
+                                              builder:
+                                                  (RunMutation addTransaction,
+                                                      QueryResult transResult) {
+                                                return Mutation(
+                                                    options: MutationOptions(
+                                                      document: gql(markOrder),
+                                                      update: (GraphQLDataProxy
+                                                              cache,
+                                                          QueryResult result) {
+                                                        return cache;
+                                                      },
+                                                      onError: (error) =>
+                                                          print(error),
+                                                      onCompleted:
+                                                          (dynamic resultData) {
+                                                        print(resultData);
+                                                      },
+                                                    ),
+                                                    builder: (RunMutation
+                                                            markOrder,
+                                                        QueryResult result) {
+                                                      return ElevatedButton(
+                                                        onPressed: () {
+                                                          markOrder({
+                                                            'id': orderID,
+                                                            'status':
+                                                                'DELIVERED',
+                                                            'items': products,
+                                                          });
+                                                          addTransaction({
+                                                            'customerID':
+                                                                customerID,
+                                                            'orderID': orderID,
+                                                            'date': new DateTime
+                                                                .now(),
+                                                            'subTotal': 100
+                                                          });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                                primary:
+                                                                    kDarkBlue),
+                                                        child: Text(
+                                                            'MARK DELIVERED'),
+                                                      );
+                                                    });
+                                              })
                                         ],
                                       ),
                                       backgroundColor: kWhite);
@@ -180,14 +245,6 @@ class OrderCard extends StatelessWidget {
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Get.snackbar('Undeliver', 'Deliver');
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: kPrimaryColor, onPrimary: kWhite),
-                                child: Text('MARK UNDELIVERED'),
-                              ),
                               Mutation(
                                   options: MutationOptions(
                                     document: gql(markOrder),
@@ -202,13 +259,36 @@ class OrderCard extends StatelessWidget {
                                   ),
                                   builder: (RunMutation markOrder,
                                       QueryResult result) {
-                                    var orderData = {
-                                      'id': orderID,
-                                      'status': 'DELIVERED',
-                                      'items': products,
-                                    };
                                     return ElevatedButton(
-                                      onPressed: () => markOrder(orderData),
+                                      onPressed: () => markOrder({
+                                        'id': orderID,
+                                        'status': 'UNDELIVERED'
+                                      }),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: kPrimaryColor,
+                                          onPrimary: kWhite),
+                                      child: Text('MARK UNDELIVERED'),
+                                    );
+                                  }),
+                              Mutation(
+                                  options: MutationOptions(
+                                    document: gql(markOrder),
+                                    update: (GraphQLDataProxy cache,
+                                        QueryResult result) {
+                                      return cache;
+                                    },
+                                    onError: (error) => print(error),
+                                    onCompleted: (dynamic resultData) {
+                                      print(resultData);
+                                    },
+                                  ),
+                                  builder: (RunMutation markOrder,
+                                      QueryResult result) {
+                                    return ElevatedButton(
+                                      onPressed: () => markOrder({
+                                        'id': orderID,
+                                        'status': 'DELIVERED'
+                                      }),
                                       style: ElevatedButton.styleFrom(
                                           primary: Colors.green),
                                       child: Text('MARK DELIVERED'),

@@ -1,6 +1,6 @@
 String markOrder = """
 mutation MarkOrder(\$id: ID!, \$status: String, \$items: [Item]){
-  markOrder(input: {id: \$id, status: \$status, items: \$items}){
+  markOrder(id: \$id, status: \$status, items: \$items){
     id
     items
     address {

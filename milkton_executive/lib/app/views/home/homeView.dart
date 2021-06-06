@@ -162,6 +162,8 @@ class _HomeViewState extends State<HomeView> {
                               itemCount: orderList.length,
                               itemBuilder: (context, index) {
                                 return OrderCard(
+                                  customerID: orderList[index]["customer"]
+                                      ["id"],
                                   orderID: orderList[index]["id"],
                                   firstName: orderList[index]["customer"]
                                       ["firstName"],

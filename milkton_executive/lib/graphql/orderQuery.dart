@@ -14,6 +14,7 @@ query OrderForToday(\$id: String)
       status
       isSub
       customer {
+        id
         firstName
         lastName
         phone
