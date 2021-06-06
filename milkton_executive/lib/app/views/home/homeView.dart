@@ -19,6 +19,7 @@ class _HomeViewState extends State<HomeView> {
   String lastName;
   String firstName;
   List orderList = [];
+  List productList = [];
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -106,6 +107,15 @@ class _HomeViewState extends State<HomeView> {
             }
             if (result.data["executive"] != null) {
               orderList = result.data["executive"]["ordersForToday"];
+              // TODO: Calculate Order Total
+              // for (int i = 0; i < orderList.length; i++) {
+              //   for (int j = 0; j < orderList[i]["items"].length; j++) {
+              //     var currentOrder = {
+              //       "productID": orderList[i]["items"][j]["productID"],
+              //       "quantity": orderList[i]["items"][j]["quantity"],
+              //     };
+              //   }
+              // }
               if (orderList.length > 0) {
                 return Center(
                   child: Padding(
@@ -152,6 +162,7 @@ class _HomeViewState extends State<HomeView> {
                               itemCount: orderList.length,
                               itemBuilder: (context, index) {
                                 return OrderCard(
+                                  orderID: orderList[index]["id"],
                                   firstName: orderList[index]["customer"]
                                       ["firstName"],
                                   lastName: orderList[index]["customer"]
