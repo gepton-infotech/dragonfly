@@ -14,10 +14,13 @@ dependencies:
 
   # State Management
   get: ^4.1.4
+  # GraphQL Client
+  graphql_flutter: ^5.0.0-nullsafety.5
   # Http Requests
   http: ^0.13.3
-  # Device Storage
+  # Splash Screen Animation
   lottie: ^1.0.1
+  # Device Storage
   shared_preferences: ^2.0.6
 
 dev_dependencies:

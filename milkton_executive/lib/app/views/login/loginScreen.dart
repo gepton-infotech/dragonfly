@@ -109,6 +109,8 @@ class _LoginViewState extends State<LoginView> {
         await prefs.setBool('isLoggedIn', true);
         await prefs.setString('executiveID', data['id']);
         await prefs.setString('phone', data['phone']);
+        await prefs.setString('firstName', data['firstName']);
+        await prefs.setString('lastName', data['lastName']);
         Get.offAll(HomeView());
       } else if (data['status'] == 'Wrong Password') {
         Get.snackbar(
