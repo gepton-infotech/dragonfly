@@ -8,8 +8,6 @@ import 'package:milkton_executive/graphql/markOrderMutation.dart';
 import 'package:milkton_executive/graphql/productsQuery.dart';
 import 'package:milkton_executive/services/url_launcher.dart';
 
-final DateTime _today = new DateTime.now();
-
 class OrderCard extends StatelessWidget {
   final TextEditingController _quantityController = TextEditingController();
   final String customerID;
@@ -35,6 +33,17 @@ class OrderCard extends StatelessWidget {
       this.comment,
       this.isSub,
       this.status});
+  int calculateTotal(List items, List allProductsData) {
+    int subTotal = 0;
+    for (int a = 0; a < items.length; a++) {
+      int price = allProductsData.firstWhere(
+          (product) => product["id"] == items[a]["productID"])["price"];
+      int quantity = int.parse(items[a]["quantity"].toString());
+      int total = price * quantity;
+      subTotal += total;
+    }
+    return subTotal;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -206,19 +215,24 @@ class OrderCard extends StatelessWidget {
                                                         QueryResult result) {
                                                       return ElevatedButton(
                                                         onPressed: () {
-                                                          markOrder({
-                                                            'id': orderID,
-                                                            'status':
-                                                                'DELIVERED',
-                                                            'items': products,
-                                                          });
                                                           addTransaction({
                                                             'customerID':
                                                                 customerID,
                                                             'orderID': orderID,
                                                             'date': new DateTime
-                                                                .now(),
-                                                            'subTotal': 100
+                                                                    .now()
+                                                                .toUtc()
+                                                                .toIso8601String(),
+                                                            'subTotal':
+                                                                calculateTotal(
+                                                                    products,
+                                                                    allProductsData)
+                                                          });
+                                                          markOrder({
+                                                            'id': orderID,
+                                                            'status':
+                                                                'DELIVERED',
+                                                            'items': products,
                                                           });
                                                           Navigator.pop(
                                                               context);
@@ -272,27 +286,53 @@ class OrderCard extends StatelessWidget {
                                   }),
                               Mutation(
                                   options: MutationOptions(
-                                    document: gql(markOrder),
-                                    update: (GraphQLDataProxy cache,
-                                        QueryResult result) {
-                                      return cache;
+                                    document: gql(addTransaction),
+                                    update: (GraphQLDataProxy transCache,
+                                        QueryResult transResult) {
+                                      return transCache;
                                     },
                                     onError: (error) => print(error),
-                                    onCompleted: (dynamic resultData) {
-                                      print(resultData);
+                                    onCompleted: (dynamic transResultData) {
+                                      print(transResultData);
                                     },
                                   ),
-                                  builder: (RunMutation markOrder,
-                                      QueryResult result) {
-                                    return ElevatedButton(
-                                      onPressed: () => markOrder({
-                                        'id': orderID,
-                                        'status': 'DELIVERED'
-                                      }),
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.green),
-                                      child: Text('MARK DELIVERED'),
-                                    );
+                                  builder: (RunMutation addTransaction,
+                                      QueryResult transResult) {
+                                    return Mutation(
+                                        options: MutationOptions(
+                                          document: gql(markOrder),
+                                          update: (GraphQLDataProxy cache,
+                                              QueryResult result) {
+                                            return cache;
+                                          },
+                                          onError: (error) => print(error),
+                                          onCompleted: (dynamic resultData) {
+                                            print(resultData);
+                                          },
+                                        ),
+                                        builder: (RunMutation markOrder,
+                                            QueryResult result) {
+                                          return ElevatedButton(
+                                            onPressed: () {
+                                              addTransaction({
+                                                'customerID': customerID,
+                                                'orderID': orderID,
+                                                'date': new DateTime.now()
+                                                    .toUtc()
+                                                    .toIso8601String(),
+                                                'subTotal': calculateTotal(
+                                                    products, allProductsData)
+                                              });
+                                              markOrder({
+                                                'id': orderID,
+                                                'status': 'DELIVERED'
+                                              });
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.green),
+                                            child: Text('MARK DELIVERED'),
+                                          );
+                                        });
                                   })
                             ],
                           )
