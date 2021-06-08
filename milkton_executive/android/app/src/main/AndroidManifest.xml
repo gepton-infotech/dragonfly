@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gepton.shree_surbhi_delivery">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="Shree Surbhi: Delivery Executive"
         android:icon="@mipmap/ic_launcher"
