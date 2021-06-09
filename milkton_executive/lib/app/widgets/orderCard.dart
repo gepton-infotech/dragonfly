@@ -9,7 +9,6 @@ import 'package:milkton_executive/graphql/productsQuery.dart';
 import 'package:milkton_executive/services/url_launcher.dart';
 
 class OrderCard extends StatelessWidget {
-  final TextEditingController _quantityController = TextEditingController();
   final String customerID;
   final String firstName;
   final String lastName;
@@ -160,10 +159,10 @@ class OrderCard extends StatelessWidget {
                                                 width: 100,
                                                 child: TextField(
                                                   controller:
-                                                      _quantityController,
+                                                      TextEditingController(),
                                                   onChanged: (quantity) {
                                                     products[i]["quantity"] =
-                                                        quantity;
+                                                        int.parse(quantity);
                                                   },
                                                   decoration: InputDecoration(
                                                       labelText: 'Qty'),

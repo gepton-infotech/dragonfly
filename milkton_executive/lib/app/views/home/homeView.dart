@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:milkton_executive/app/views/login/loginScreen.dart';
+import 'package:milkton_executive/app/views/productList/productList.dart';
 import 'package:milkton_executive/app/widgets/orderCard.dart';
 import 'package:milkton_executive/app/widgets/table.dart';
 import 'package:milkton_executive/configs/date.dart';
@@ -20,6 +21,27 @@ class _HomeViewState extends State<HomeView> {
   String firstName;
   List orderList = [];
   List productList = [];
+  getProductList(List orderList) {
+    productList = [];
+    for (int i = 0; i < orderList.length; i++) {
+      for (int j = 0; j < orderList[i]["items"].length; j++) {
+        var currentOrder = {
+          "productID": orderList[i]["items"][j]["productID"],
+          "quantity": orderList[i]["items"][j]["quantity"],
+        };
+        var requiredProduct = productList.firstWhere(
+            (element) => element["productID"] == currentOrder["productID"],
+            orElse: () => null);
+        print(requiredProduct);
+        if (requiredProduct != null) {
+          requiredProduct["quantity"] += currentOrder["quantity"];
+        } else {
+          productList.add(currentOrder);
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -61,6 +83,12 @@ class _HomeViewState extends State<HomeView> {
             ),
             ListTile(
               leading: Icon(Icons.shop),
+              onTap: () {
+                getProductList(orderList);
+                Get.to(ProductList(
+                  productList: productList,
+                ));
+              },
               title: Text(
                 'Product List',
                 style: TextStyle(fontSize: 16.0),
@@ -107,15 +135,6 @@ class _HomeViewState extends State<HomeView> {
             }
             if (result.data["executive"] != null) {
               orderList = result.data["executive"]["ordersForToday"];
-              // TODO: Calculate Order Total
-              // for (int i = 0; i < orderList.length; i++) {
-              //   for (int j = 0; j < orderList[i]["items"].length; j++) {
-              //     var currentOrder = {
-              //       "productID": orderList[i]["items"][j]["productID"],
-              //       "quantity": orderList[i]["items"][j]["quantity"],
-              //     };
-              //   }
-              // }
               if (orderList.length > 0) {
                 return Center(
                   child: Padding(
@@ -159,6 +178,7 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         Expanded(
                           child: ListView.builder(
+                              shrinkWrap: true,
                               itemCount: orderList.length,
                               itemBuilder: (context, index) {
                                 return OrderCard(
