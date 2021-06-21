@@ -43,7 +43,17 @@ class ProductList extends StatelessWidget {
                               product["id"] ==
                               productList[index]["productID"])["name"]
                           .toString()),
-                      subtitle: Text(productList[index]["status"].toString()),
+                      subtitle: Text(
+                        productList[index]["status"].toString(),
+                        style: TextStyle(
+                            color: productList[index]["status"].toString() ==
+                                    'ACTIVE'
+                                ? Colors.green
+                                : productList[index]["status"].toString() ==
+                                        'DELIVERED'
+                                    ? Colors.purple
+                                    : Colors.red),
+                      ),
                       trailing: Text(productList[index]["quantity"].toString()),
                     );
                   });
