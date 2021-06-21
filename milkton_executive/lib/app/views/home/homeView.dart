@@ -16,6 +16,9 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final TextEditingController _searchQuery = TextEditingController();
+  String query = '';
+  bool searchIconTap = false;
   String executiveID;
   String lastName;
   String firstName;
@@ -49,11 +52,32 @@ class _HomeViewState extends State<HomeView> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: searchIconTap
+            ? TextField(
+                controller: _searchQuery,
+                onChanged: (value) {
+                  setState(() {
+                    query = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Search by Name or Phone',
+                ),
+              )
+            : Text('Home'),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.search),
+            child: IconButton(
+              icon: searchIconTap ? Icon(Icons.arrow_back) : Icon(Icons.search),
+              onPressed: () {
+                setState(() {
+                  searchIconTap = !searchIconTap;
+                  _searchQuery.clear();
+                  query = '';
+                });
+              },
+            ),
           ),
         ],
       ),
@@ -137,6 +161,23 @@ class _HomeViewState extends State<HomeView> {
             }
             if (result.data["executive"] != null) {
               orderList = result.data["executive"]["ordersForToday"];
+              List queryList = query != ''
+                  ? orderList
+                      .where((element) =>
+                          element["customer"]["firstName"]
+                              .toString()
+                              .toLowerCase()
+                              .contains(query.toLowerCase()) ||
+                          element["customer"]["lastName"]
+                              .toString()
+                              .toLowerCase()
+                              .contains(query.toLowerCase()) ||
+                          element["customer"]["phone"]
+                              .toString()
+                              .toLowerCase()
+                              .contains(query.toLowerCase()))
+                      .toList()
+                  : orderList;
               if (orderList.length > 0) {
                 return Center(
                   child: Padding(
@@ -181,21 +222,21 @@ class _HomeViewState extends State<HomeView> {
                         Expanded(
                           child: ListView.builder(
                               shrinkWrap: true,
-                              itemCount: orderList.length,
+                              itemCount: queryList.length,
                               itemBuilder: (context, index) {
                                 return OrderCard(
-                                  customerID: orderList[index]["customer"]
+                                  customerID: queryList[index]["customer"]
                                       ["id"],
-                                  orderID: orderList[index]["id"],
-                                  firstName: orderList[index]["customer"]
+                                  orderID: queryList[index]["id"],
+                                  firstName: queryList[index]["customer"]
                                       ["firstName"],
-                                  lastName: orderList[index]["customer"]
+                                  lastName: queryList[index]["customer"]
                                       ["lastName"],
-                                  phone: orderList[index]["customer"]["phone"],
-                                  address: orderList[index]["address"]["name"],
-                                  products: orderList[index]["items"],
-                                  isSub: orderList[index]["isSub"],
-                                  status: orderList[index]["status"],
+                                  phone: queryList[index]["customer"]["phone"],
+                                  address: queryList[index]["address"]["name"],
+                                  products: queryList[index]["items"],
+                                  isSub: queryList[index]["isSub"],
+                                  status: queryList[index]["status"],
                                 );
                               }),
                         ),
