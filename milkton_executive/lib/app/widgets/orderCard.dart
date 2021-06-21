@@ -97,7 +97,11 @@ class OrderCard extends StatelessWidget {
                       leading: Icon(Icons.location_city),
                       trailing: Container(
                         padding: EdgeInsets.all(8.0),
-                        color: status == 'ACTIVE' ? Colors.green : Colors.red,
+                        color: status == 'ACTIVE'
+                            ? Colors.green
+                            : status == 'DELIVERED'
+                                ? Colors.purple
+                                : Colors.red,
                         child: Text(
                           status,
                           style: TextStyle(
