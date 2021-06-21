@@ -29,7 +29,7 @@ jobs:
         run: echo $API_SECRETS >> lib/configs/apiSecrets.dart
       - name: Configure Keystore
         run: |
-          echo $SIGNING_KEY >> android/app/key.jks
+          echo "$SIGNING_KEY" | base64 --decode > android/app/key.jks
           echo "storeFile=key.jks" >> android/key.properties
           echo "keyAlias=$KEY_ALIAS" >> android/key.properties
           echo "storePassword=$STORE_PASSWORD" >> android/key.properties
