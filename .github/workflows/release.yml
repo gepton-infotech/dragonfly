@@ -56,6 +56,6 @@ jobs:
         with:
           serviceAccountJson: ${{ secrets.PLAYSTORE_KEY }}
           packageName: com.gepton.shree_surbhi_delivery
-          releaseFile: milkton_executive/build/app/outputs/bundle/release/app-release.aab
+          releaseFiles: milkton_executive/build/app/outputs/bundle/release/app-release.aab
           track: beta
           whatsNewDirectory: distribution/whatsnew

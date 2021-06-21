@@ -3,7 +3,7 @@
 [contributing]: CONTRIBUTING.md
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
-[![build](https://github.com/GEPTON-INFOTECH/dragonfly/actions/workflows/build.yml/badge.svg)](https://github.com/GEPTON-INFOTECH/dragonfly/actions/workflows/build.yml)
+[![build](https://github.com/GEPTON-INFOTECH/dragonfly/actions/workflows/build.yml/badge.svg)](https://github.com/GEPTON-INFOTECH/dragonfly/actions/workflows/build.yml) [![Release to Play Store](https://github.com/GEPTON-INFOTECH/dragonfly/actions/workflows/release.yml/badge.svg)](https://github.com/GEPTON-INFOTECH/dragonfly/actions/workflows/release.yml)
 
 ![GEPTON](https://user-images.githubusercontent.com/39991296/122655705-18f33100-d172-11eb-8c5d-83378ea38e70.png)
 #
