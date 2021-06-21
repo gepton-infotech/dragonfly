@@ -43,6 +43,7 @@ class ProductList extends StatelessWidget {
                               product["id"] ==
                               productList[index]["productID"])["name"]
                           .toString()),
+                      subtitle: Text(productList[index]["status"].toString()),
                       trailing: Text(productList[index]["quantity"].toString()),
                     );
                   });

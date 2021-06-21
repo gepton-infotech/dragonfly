@@ -28,11 +28,13 @@ class _HomeViewState extends State<HomeView> {
         var currentOrder = {
           "productID": orderList[i]["items"][j]["productID"],
           "quantity": orderList[i]["items"][j]["quantity"],
+          "status": orderList[i]["status"],
         };
         var requiredProduct = productList.firstWhere(
-            (element) => element["productID"] == currentOrder["productID"],
+            (element) =>
+                element["productID"] == currentOrder["productID"] &&
+                element["status"] == currentOrder["status"],
             orElse: () => null);
-        print(requiredProduct);
         if (requiredProduct != null) {
           requiredProduct["quantity"] += currentOrder["quantity"];
         } else {
@@ -51,7 +53,7 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.notifications),
+            child: Icon(Icons.search),
           ),
         ],
       ),
