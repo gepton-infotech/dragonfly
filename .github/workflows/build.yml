@@ -1,10 +1,14 @@
-name: build-test
+name: build
 
 on:
   push
   
 env:
   API_SECRETS: ${{secrets.API_SECRETS}}
+  STORE_PASSWORD: ${{secrets.STORE_PASSWORD}}
+  SIGNING_KEY: ${{secrets.SIGNING_KEY}}
+  KEY_PASSWORD: ${{secrets.KEY_PASSWORD}}
+  KEY_ALIAS: ${{secrets.KEY_ALIAS}}
 
 jobs:
   flutter-build:
@@ -22,14 +26,18 @@ jobs:
         with:
           channel: "stable"
       - name: Add API SECRETs
+        run: echo $API_SECRETS >> lib/configs/apiSecrets.dart
+      - name: Configure Keystore
         run: |
-          touch lib/configs/apiSecrets.dart
-          echo $API_SECRETS >> lib/configs/apiSecrets.dart
-          cat lib/configs/apiSecrets.dart
+          echo $SIGNING_KEY >> android/app/key.jks
+          echo "storeFile=key.jks" >> android/key.properties
+          echo "keyAlias=$KEY_ALIAS" >> android/key.properties
+          echo "storePassword=$STORE_PASSWORD" >> android/key.properties
+          echo "keyPassword=$KEY_PASSWORD" >> android/key.properties
       - name: Build App
         run: flutter clean
       - run: flutter pub get
-      - run: flutter build apk --no-codesign
+      - run: flutter build apk
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
