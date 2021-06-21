@@ -1,0 +1,61 @@
+name: Release to Play Store
+
+on:
+  release:
+    types:
+      - created
+  
+env:
+  API_SECRETS: ${{secrets.API_SECRETS}}
+  STORE_PASSWORD: ${{secrets.STORE_PASSWORD}}
+  SIGNING_KEY: ${{secrets.SIGNING_KEY}}
+  KEY_PASSWORD: ${{secrets.KEY_PASSWORD}}
+  KEY_ALIAS: ${{secrets.KEY_ALIAS}}
+
+jobs:
+  flutter-build:
+    name: Run flutter build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: milkton_executive
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "11.x"
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - name: Add API SECRETs
+        run: echo $API_SECRETS >> lib/configs/apiSecrets.dart
+      - name: Configure Keystore
+        run: |
+          echo "$SIGNING_KEY" | base64 --decode > android/app/key.jks
+          echo "storeFile=key.jks" >> android/key.properties
+          echo "keyAlias=$KEY_ALIAS" >> android/key.properties
+          echo "storePassword=$STORE_PASSWORD" >> android/key.properties
+          echo "keyPassword=$KEY_PASSWORD" >> android/key.properties
+      - name: Build App Bundle
+        run: flutter clean
+      - run: flutter pub get
+      - run: flutter build appbundle
+      - name: Upload App Bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-bundle
+          path: milkton_executive/build/app/outputs/bundle/release/app-release.aab
+      - name: Download App Bundle
+        uses: actions/download-artifact@v2
+        with:
+          name: app-bundle
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: Release app to Beta track
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: ${{ secrets.PLAYSTORE_KEY }}
+          packageName: com.gepton.shree_surbhi_delivery
+          releaseFile: milkton_executive/build/app/outputs/bundle/release/app-release.aab
+          track: beta
+          whatsNewDirectory: distribution/whatsnew

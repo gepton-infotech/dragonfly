@@ -1,10 +1,18 @@
-# milkton_executive
+# 🥛 Milkton Executive
 
-Milkton Executive App
+Milkton delivery executive app empowers our milk delivery partner to manage their daily orders and reports through their mobile application.
+
+## Features
+
+- Mark Order: Delivered || Undelivered
+- Total Product List
+- Executive account and profile
+- Customer contact and address navigation via google maps
+- Order summary and reports
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is based on Flutter > v2.0.
 
 A few resources to get you started if this is your first Flutter project:
 
