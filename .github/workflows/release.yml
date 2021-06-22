@@ -56,7 +56,7 @@ jobs:
       - name: Release app to Beta track
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: playstore.json
+          serviceAccountJson: milkton_executive/playstore.json
           packageName: com.gepton.shree_surbhi_delivery
           releaseFiles: milkton_executive/build/app/outputs/bundle/release/app-release.aab
           track: beta
