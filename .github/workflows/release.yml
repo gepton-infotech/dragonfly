@@ -11,6 +11,7 @@ env:
   SIGNING_KEY: ${{secrets.SIGNING_KEY}}
   KEY_PASSWORD: ${{secrets.KEY_PASSWORD}}
   KEY_ALIAS: ${{secrets.KEY_ALIAS}}
+  PLAYSTORE_KEY: ${{secrets.PLAYSTORE_KEY}}
 
 jobs:
   flutter-build:
@@ -29,8 +30,9 @@ jobs:
           channel: "stable"
       - name: Add API SECRETs
         run: echo $API_SECRETS >> lib/configs/apiSecrets.dart
-      - name: Configure Keystore
+      - name: Configure Keystore and Signing Config
         run: |
+          echo "$PLAYSTORE_KEY" | base64 --decode > playstore.json
           echo "$SIGNING_KEY" | base64 --decode > android/app/key.jks
           echo "storeFile=key.jks" >> android/key.properties
           echo "keyAlias=$KEY_ALIAS" >> android/key.properties
@@ -54,7 +56,7 @@ jobs:
       - name: Release app to Beta track
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: ${{ secrets.PLAYSTORE_KEY }}
+          serviceAccountJson: playstore.json
           packageName: com.gepton.shree_surbhi_delivery
           releaseFiles: milkton_executive/build/app/outputs/bundle/release/app-release.aab
           track: beta
