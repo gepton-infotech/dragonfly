@@ -1,6 +1,5 @@
-# API Secrets
-lib/configs/apiSecrets.dart
-
+#Google Services
+android/app/google-services.json
 # Miscellaneous
 *.class
 *.log

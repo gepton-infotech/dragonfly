@@ -12,5 +12,5 @@ Future<dynamic> checkCredentials(String phone, String password) async {
     },
   ).then((loginResponse) {
     return json.decode(loginResponse.body);
-  });
+  }).onError((error, stackTrace) => print(error.toString()));
 }

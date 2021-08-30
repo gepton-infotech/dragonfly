@@ -103,7 +103,6 @@ class _LoginViewState extends State<LoginView> {
   _authCheck() async {
     var data = await checkCredentials(phone, password);
     if (data != null) {
-      print(data);
       if (data['status'] == 'Authenticated') {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);

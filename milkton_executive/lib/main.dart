@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:milkton_executive/app/milkton_app.dart';
+import 'package:milkton_executive/app/firebase_init.dart';
 import 'package:milkton_executive/constants/color_constant.dart';
 
 void main() async {
@@ -10,5 +10,5 @@ void main() async {
         systemNavigationBarColor: kWhite, statusBarColor: kPrimaryColor),
   );
   await initHiveForFlutter();
-  runApp(MilktonApp());
+  runApp(MainApp());
 }
