@@ -6,7 +6,7 @@ on:
       - created
   
 env:
-  API_SECRETS: ${{secrets.API_SECRETS}}
+  ANDROID_SERVICE: ${{secrets.ANDROID_SERVICE}}
   STORE_PASSWORD: ${{secrets.STORE_PASSWORD}}
   SIGNING_KEY: ${{secrets.SIGNING_KEY}}
   KEY_PASSWORD: ${{secrets.KEY_PASSWORD}}
@@ -28,10 +28,9 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: "stable"
-      - name: Add API SECRETs
-        run: echo $API_SECRETS >> lib/configs/apiSecrets.dart
-      - name: Configure Keystore and Signing Config
+      - name: Configure Service account, Keystore and Signing Config
         run: |
+          echo "$ANDROID_SERVICE" | base64 --decode > android/app/google-services.json
           echo "$PLAYSTORE_KEY" | base64 --decode > playstore.json
           echo "$SIGNING_KEY" | base64 --decode > android/app/key.jks
           echo "storeFile=key.jks" >> android/key.properties
