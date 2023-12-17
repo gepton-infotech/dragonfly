@@ -1,27 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milkton_executive/cubit/counter_cubit.dart';
-import 'package:milkton_executive/home_page.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
+import 'package:milkton_executive/presentation/screens/login.dart';
+import 'package:milkton_executive/presentation/screens/splash.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MilktonExecutive());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MilktonExecutive extends StatelessWidget {
+  const MilktonExecutive({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => CounterCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
+      ],
       child: MaterialApp(
         title: 'Milkton Executive',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+          textTheme: GoogleFonts.poppinsTextTheme(),
           useMaterial3: true,
         ),
-        home: const MyHomePage(title: 'Milkton Executive'),
+        home: BlocBuilder<AuthCubit, AuthState>(
+          builder: (context, state) {
+            if (state is AuthLoggedInState) {
+              return const SplashScreen();
+            }
+            return const LoginScreen();
+          },
+        ),
       ),
     );
   }

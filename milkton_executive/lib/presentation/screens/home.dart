@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milkton_executive/cubit/counter_cubit.dart';
+import 'package:milkton_executive/bloc/counter_bloc.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title}) : super();
@@ -8,7 +8,8 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final counterCubit = BlocProvider.of<CounterCubit>(context);
+    final counterBloc = BlocProvider.of<CounterBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -18,17 +19,16 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const Image(image: AssetImage('assets/images/dicon.png')),
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocBuilder<CounterCubit, int>(
-                bloc: counterCubit,
-                builder: (context, counter) {
-                  return Text(
-                    '$counter',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  );
-                }),
+            BlocBuilder<CounterBloc, int>(builder: (context, counter) {
+              return Text(
+                '$counter',
+                style: Theme.of(context).textTheme.headlineMedium,
+              );
+            }),
           ],
         ),
       ),
@@ -37,12 +37,12 @@ class MyHomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           FloatingActionButton(
-            onPressed: () => counterCubit.increment(),
+            onPressed: () => counterBloc.add(CounterIncremented()),
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
           FloatingActionButton(
-            onPressed: () => counterCubit.decrement(),
+            onPressed: () => counterBloc.add(CounterDecremented()),
             tooltip: 'Decrement',
             child: const Icon(Icons.minimize),
           ),
