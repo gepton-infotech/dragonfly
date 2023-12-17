@@ -22,7 +22,8 @@ class MilktonExecutive extends StatelessWidget {
         title: 'Milkton Executive',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          textTheme: GoogleFonts.poppinsTextTheme(),
+          textTheme: GoogleFonts.robotoTextTheme(),
+          primarySwatch: Colors.deepOrange,
           useMaterial3: true,
         ),
         home: BlocBuilder<AuthCubit, AuthState>(
