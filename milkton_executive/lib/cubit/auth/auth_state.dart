@@ -12,8 +12,8 @@ final class AuthCodeSentState extends AuthState {}
 final class AuthCodeVerifiedState extends AuthState {}
 
 final class AuthLoggedInState extends AuthState {
-  // final User firebaseUser;
-  // AuthLoggedInState({required this.firebaseUser});
+  final User firebaseUser;
+  AuthLoggedInState({required this.firebaseUser});
 }
 
 final class AuthLoggedOutState extends AuthState {}

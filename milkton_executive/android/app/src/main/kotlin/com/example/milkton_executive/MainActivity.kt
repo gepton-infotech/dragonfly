@@ -1,4 +1,4 @@
-package com.example.milkton_executive
+package com.gepton.milkton_executive
 
 import io.flutter.embedding.android.FlutterActivity
 

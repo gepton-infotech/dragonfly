@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.milkton_executive"
+    namespace "com.gepton.milkton_executive"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -60,20 +60,20 @@ android {
     }
 
 
-    flavorDimensions "default"
+    // flavorDimensions "default"
 
-    productFlavors {
-        demo {
-            dimension "default"
-            resValue "string", "app_name", "Milkton Executive Demo"
-            applicationIdSuffix "demo"
-        }
-        shreesurbhi {
-            dimension "default"
-            resValue "string", "app_name", "Shree Surbhi: Delivery Partner"
-            applicationIdSuffix "shreesurbhi"
-        }
-    }
+    // productFlavors {
+    //     demo {
+    //         dimension "default"
+    //         resValue "string", "app_name", "Milkton Executive Demo"
+    //         applicationIdSuffix "demo"
+    //     }
+    //     shreesurbhi {
+    //         dimension "default"
+    //         resValue "string", "app_name", "Shree Surbhi: Delivery Partner"
+    //         applicationIdSuffix "shreesurbhi"
+    //     }
+    // }
 
 }
 

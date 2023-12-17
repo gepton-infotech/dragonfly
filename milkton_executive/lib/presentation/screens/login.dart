@@ -28,10 +28,13 @@ class LoginScreen extends StatelessWidget {
               }
             },
             builder: (context, state) {
-              if (state is AuthCodeSentState) {
-                return const OtpForm();
+              if (state is AuthLoadingState) {
+                return const CircularProgressIndicator();
               }
-              return const LoginForm();
+              if (state is AuthCodeSentState) {
+                return OtpForm();
+              }
+              return LoginForm();
             },
           ),
         ),

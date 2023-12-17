@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:milkton_executive/presentation/widgets/otp_form.dart';
+import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
 
 const double sizedBoxHeight = 8.0;
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({super.key});
+  LoginForm({super.key});
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +33,22 @@ class LoginForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: sizedBoxHeight),
-          const TextField(
+          TextField(
             maxLength: 10,
             keyboardType: TextInputType.phone,
-            decoration: InputDecoration(
+            controller: _phoneNumberController,
+            decoration: const InputDecoration(
               hintText: '10 digit mobile number',
               prefixIcon: Icon(Icons.phone),
             ),
           ),
           const SizedBox(height: sizedBoxHeight),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              context
+                  .read<AuthCubit>()
+                  .verifyPhoneNumber(_phoneNumberController.text);
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.deepOrange, // background color
               foregroundColor: Colors.white, // text color

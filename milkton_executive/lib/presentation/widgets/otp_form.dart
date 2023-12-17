@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
 
 const double sizedBoxHeight = 8.0;
 
 class OtpForm extends StatelessWidget {
-  const OtpForm({super.key});
+  OtpForm({super.key});
+  final TextEditingController _otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +33,20 @@ class OtpForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: sizedBoxHeight),
-          const TextField(
+          TextField(
+            controller: _otpController,
             maxLength: 6,
             keyboardType: TextInputType.number,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: 'Enter OTP',
               prefixIcon: Icon(Icons.lock),
             ),
           ),
           const SizedBox(height: sizedBoxHeight),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<AuthCubit>().verifyOtp(_otpController.text);
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.deepOrange, // background color
               foregroundColor: Colors.white, // text color
