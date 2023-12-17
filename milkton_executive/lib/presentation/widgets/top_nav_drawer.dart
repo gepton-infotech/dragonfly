@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
+import 'package:milkton_executive/presentation/screens/developer.dart';
+import 'package:milkton_executive/presentation/screens/product_summary.dart';
+import 'package:milkton_executive/presentation/screens/profile.dart';
 
 class TopNavDrawer extends StatelessWidget {
   const TopNavDrawer({
@@ -38,21 +41,27 @@ class TopNavDrawer extends StatelessWidget {
                 leading: const Icon(Icons.shop),
                 title: const Text('Product List'),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const ProductSummaryScreen();
+                  }));
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.person),
                 title: const Text('Profile'),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const Profile();
+                  }));
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.link),
                 title: const Text('Developer Info'),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const DeveloperInfoScreen();
+                  }));
                 },
               ),
               ListTile(

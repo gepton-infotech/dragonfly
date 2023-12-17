@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
 import 'package:milkton_executive/presentation/widgets/top_nav_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -25,9 +23,14 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  'You have pushed the button this many times:',
-                ),
+                Card(
+                    child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'Welcome to Milkton Executive',
+                    style: TextStyle(fontSize: 24),
+                  ),
+                )),
               ],
             ),
           ),

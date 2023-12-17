@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ProductSummaryScreen extends StatelessWidget {
-  const ProductSummaryScreen({super.key});
+class DeveloperInfoScreen extends StatelessWidget {
+  const DeveloperInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -9,10 +9,10 @@ class ProductSummaryScreen extends StatelessWidget {
       appBar: AppBar(
         foregroundColor: Colors.white,
         backgroundColor: Colors.deepOrangeAccent,
-        title: const Text("Product Summary"),
+        title: const Text("Developer Info"),
       ),
       body: const Center(
-        child: Text("Product Summary Screen"),
+        child: Text("Developer Info Coming Soon..."),
       ),
     );
   }
