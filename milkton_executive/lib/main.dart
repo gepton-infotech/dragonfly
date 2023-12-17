@@ -27,6 +27,7 @@ class MilktonExecutive extends StatelessWidget {
           useMaterial3: true,
         ),
         home: BlocBuilder<AuthCubit, AuthState>(
+          buildWhen: (previous, current) => current is! AuthInitial,
           builder: (context, state) {
             if (state is AuthLoggedInState) {
               return const SplashScreen();
