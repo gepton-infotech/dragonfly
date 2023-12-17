@@ -45,6 +45,15 @@ class OtpForm extends StatelessWidget {
           const SizedBox(height: sizedBoxHeight),
           ElevatedButton(
             onPressed: () {
+              if (_otpController.text.length != 6) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Please enter a valid mobile number'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+                return;
+              }
               context.read<AuthCubit>().verifyOtp(_otpController.text);
             },
             style: ElevatedButton.styleFrom(

@@ -45,6 +45,15 @@ class LoginForm extends StatelessWidget {
           const SizedBox(height: sizedBoxHeight),
           ElevatedButton(
             onPressed: () {
+              if (_phoneNumberController.text.length != 10) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Please enter a valid mobile number'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+                return;
+              }
               context
                   .read<AuthCubit>()
                   .verifyPhoneNumber(_phoneNumberController.text);
