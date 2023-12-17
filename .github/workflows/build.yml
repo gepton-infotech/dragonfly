@@ -13,18 +13,19 @@ env:
 jobs:
   flutter-build:
     name: Run flutter build
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     defaults:
       run:
         working-directory: milkton_executive
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-java@v1
         with:
           java-version: "11.x"
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
+          architecture: x64
       - name: Configure Service account, Keystore and Signing Config
         run: |
           echo "$ANDROID_SERVICE" | base64 --decode > android/app/google-services.json
