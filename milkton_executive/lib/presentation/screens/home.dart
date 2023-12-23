@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
         "isActive": true,
       },
       {
-        "title": "Pending",
+        "title": "Active",
         "count": 20,
         "isActive": false,
       },
@@ -30,6 +30,51 @@ class HomeScreen extends StatelessWidget {
         "title": "Undelivered",
         "count": 5,
         "isActive": false,
+      },
+    ];
+
+    final List order_list = [
+      {
+        "customerName": "John Doe",
+        "customerPhone": "9876543210",
+        "customerAddress": "123, Main Street, Bangalore",
+        "status": "DELIVERED",
+        "isSub": false,
+      },
+      {
+        "customerName": "John Doe",
+        "customerPhone": "9876543210",
+        "customerAddress": "123, Main Street, Bangalore",
+        "status": "ACTIVE",
+        "isSub": true,
+      },
+      {
+        "customerName": "John Doe",
+        "customerPhone": "9876543210",
+        "customerAddress": "123, Main Street, Bangalore",
+        "status": "DELIVERED",
+        "isSub": false,
+      },
+      {
+        "customerName": "John Doe",
+        "customerPhone": "9876543210",
+        "customerAddress": "123, Main Street, Bangalore",
+        "status": "ACTIVE",
+        "isSub": true,
+      },
+      {
+        "customerName": "John Doe",
+        "customerPhone": "9876543210",
+        "customerAddress": "123, Main Street, Bangalore",
+        "status": "DELIVERED",
+        "isSub": false,
+      },
+      {
+        "customerName": "John Doe",
+        "customerPhone": "9876543210",
+        "customerAddress": "123, Main Street, Bangalore",
+        "status": "ACTIVE",
+        "isSub": true,
       },
     ];
 
@@ -50,14 +95,6 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text(
-                  "Today: 01 Jan 2024",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.deepPurpleAccent,
-                  ),
-                ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -77,15 +114,21 @@ class HomeScreen extends StatelessWidget {
                         .toList(),
                   ),
                 ),
-                const Column(children: <Widget>[
-                  SizedBox(height: 12),
-                  OrderCard(),
-                  OrderCard(),
-                  OrderCard(),
-                  OrderCard(),
-                  OrderCard(),
-                  OrderCard(),
-                  OrderCard(),
+                Column(children: <Widget>[
+                  ...order_list.map(
+                    (order) => Column(
+                      children: [
+                        const SizedBox(height: 12),
+                        OrderCard(
+                          customerName: order["customerName"],
+                          customerPhone: order["customerPhone"],
+                          customerAddress: order["customerAddress"],
+                          status: order["status"],
+                          isSub: order["isSub"],
+                        ),
+                      ],
+                    ),
+                  ),
                 ]),
               ],
             ),
