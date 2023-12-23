@@ -4,6 +4,7 @@ import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
 import 'package:milkton_executive/presentation/screens/developer.dart';
 import 'package:milkton_executive/presentation/screens/product_summary.dart';
 import 'package:milkton_executive/presentation/screens/profile.dart';
+import 'package:milkton_executive/utils/data.dart';
 
 class TopNavDrawer extends StatelessWidget {
   const TopNavDrawer({
@@ -79,7 +80,8 @@ class TopNavDrawer extends StatelessWidget {
                 'assets/images/gepton.png',
                 height: 50,
               ),
-              const Text("Milkton v1.0.0"),
+              const Text("Milkton v5.0.0"),
+              Text(today),
               const SizedBox(
                 height: 20,
               ),

@@ -8,8 +8,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
-
     final List buttonStates = [
       {
         "title": "All",
@@ -33,7 +31,7 @@ class HomeScreen extends StatelessWidget {
       },
     ];
 
-    final List order_list = [
+    final List orderList = [
       {
         "customerName": "John Doe",
         "customerPhone": "9876543210",
@@ -115,7 +113,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 Column(children: <Widget>[
-                  ...order_list.map(
+                  ...orderList.map(
                     (order) => Column(
                       children: [
                         const SizedBox(height: 12),
