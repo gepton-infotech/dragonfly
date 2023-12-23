@@ -8,7 +8,7 @@ class ProductSummaryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.deepPurpleAccent,
         title: const Text("Product Summary"),
       ),
       body: const Center(

@@ -8,7 +8,7 @@ class DeveloperInfoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.deepPurpleAccent,
         title: const Text("Developer Info"),
       ),
       body: const Center(

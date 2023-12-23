@@ -29,16 +29,14 @@ class MilktonExecutive extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: GoogleFonts.robotoTextTheme(),
-          primarySwatch: Colors.deepOrange,
+          primarySwatch: Colors.deepPurple,
           useMaterial3: true,
         ),
         home: BlocBuilder<AuthCubit, AuthState>(
           buildWhen: (previous, current) => current is! AuthInitial,
           builder: (context, state) {
             if (state is AuthLoggedInState) {
-              return const HomeScreen(
-                title: "Milkton Executive",
-              );
+              return const HomeScreen();
             }
             return const LoginScreen();
           },

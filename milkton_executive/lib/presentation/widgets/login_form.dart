@@ -59,7 +59,7 @@ class LoginForm extends StatelessWidget {
                   .verifyPhoneNumber(_phoneNumberController.text);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.deepOrange, // background color
+              backgroundColor: Colors.deepPurple, // background color
               foregroundColor: Colors.white, // text color
               elevation: 5, // button's elevation when it's pressed
               shape: RoundedRectangleBorder(

@@ -8,7 +8,7 @@ class Profile extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.deepPurpleAccent,
         title: const Text("Profile"),
       ),
       body: const Center(child: Text("Profile Coming Soon...")),
