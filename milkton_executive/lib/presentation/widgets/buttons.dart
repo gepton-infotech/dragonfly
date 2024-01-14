@@ -23,20 +23,22 @@ class PrimaryButton extends StatelessWidget {
 }
 
 class SecondaryButton extends StatelessWidget {
-  const SecondaryButton({
+  SecondaryButton({
     super.key,
     required this.isActive,
     required this.title,
     required this.count,
+    this.onPressed,
   });
   final bool isActive;
   final String title;
   final int count;
+  void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: isActive
           ? ButtonStyle(
               foregroundColor:
