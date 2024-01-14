@@ -19,13 +19,18 @@ class ProductSummaryScreen extends StatelessWidget {
               List uniqueItems = [];
 
               for (var order in state.orders) {
+                String status = order["status"];
                 order["items"].forEach((item) {
-                  var foundItem = uniqueItems.where(
-                      (element) => element["productID"] == item["productID"]);
+                  var foundItem = uniqueItems.firstWhere(
+                      (element) =>
+                          element["productID"] == item["productID"] &&
+                          element["status"] == status,
+                      orElse: () => {});
+
                   if (foundItem.isNotEmpty) {
-                    List<dynamic> foundItemList = foundItem.toList();
-                    foundItemList[0]["quantity"] += item["quantity"];
+                    foundItem["quantity"] += item["quantity"];
                   } else {
+                    item["status"] = status;
                     uniqueItems.add(item);
                   }
                 });
@@ -34,10 +39,19 @@ class ProductSummaryScreen extends StatelessWidget {
                 children: [
                   ...uniqueItems.map((item) {
                     return ListTile(
-                      title: Text(item["name"]),
-                      subtitle: Text("₹${item["price"].toString()}"),
-                      trailing: Text(item["quantity"].toString()),
-                    );
+                        title: Text(item["name"]),
+                        subtitle: Text(
+                          item["status"],
+                          style: TextStyle(
+                            color: item["status"] == "ACTIVE"
+                                ? Colors.purple
+                                : item["status"] == "DELIVERED"
+                                    ? Colors.green
+                                    : Colors.red,
+                          ),
+                        ),
+                        trailing: Text(item["quantity"].toString()),
+                        leading: const Icon(Icons.shopping_cart_outlined));
                   })
                 ],
               );
