@@ -35,25 +35,27 @@ class ProductSummaryScreen extends StatelessWidget {
                   }
                 });
               }
-              return Column(
-                children: [
-                  ...uniqueItems.map((item) {
-                    return ListTile(
-                        title: Text(item["name"]),
-                        subtitle: Text(
-                          item["status"],
-                          style: TextStyle(
-                            color: item["status"] == "ACTIVE"
-                                ? Colors.purple
-                                : item["status"] == "DELIVERED"
-                                    ? Colors.green
-                                    : Colors.red,
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ...uniqueItems.map((item) {
+                      return ListTile(
+                          title: Text(item["name"]),
+                          subtitle: Text(
+                            item["status"],
+                            style: TextStyle(
+                              color: item["status"] == "ACTIVE"
+                                  ? Colors.purple
+                                  : item["status"] == "DELIVERED"
+                                      ? Colors.green
+                                      : Colors.red,
+                            ),
                           ),
-                        ),
-                        trailing: Text(item["quantity"].toString()),
-                        leading: const Icon(Icons.shopping_cart_outlined));
-                  })
-                ],
+                          trailing: Text(item["quantity"].toString()),
+                          leading: const Icon(Icons.shopping_cart_outlined));
+                    })
+                  ],
+                ),
               );
             } else {
               return const Center(child: CircularProgressIndicator());
