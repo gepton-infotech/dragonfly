@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:milkton_executive/cubit/all_orders/all_orders_cubit.dart';
 import 'package:milkton_executive/cubit/status/status_cubit.dart';
 import 'package:milkton_executive/graphql/order_query.dart';
 import 'package:milkton_executive/models/order.dart';
@@ -32,7 +33,6 @@ class HomeScreen extends StatelessWidget {
         "state": StatusUndelivered(),
       },
     ];
-
     return Scaffold(
         appBar: AppBar(
           foregroundColor: Colors.white,
@@ -66,6 +66,7 @@ class HomeScreen extends StatelessWidget {
             if (orders == null) {
               return const Text('No repositories');
             }
+            context.read<AllOrdersCubit>().getOrders(orders);
 
             return Padding(
               padding: const EdgeInsets.all(12.0),

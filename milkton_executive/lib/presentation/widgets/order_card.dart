@@ -13,9 +13,9 @@ class OrderCard extends StatelessWidget {
   final Order order;
 
   const OrderCard({
-    Key? key,
+    super.key,
     required this.order,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,26 +58,31 @@ class OrderCard extends StatelessWidget {
               )),
           ButtonBar(
             alignment: MainAxisAlignment.spaceBetween,
-            children: [
-              OutlinedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.cancel_outlined),
-                label: const Text('UN-DELIVER'),
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                  backgroundColor: MaterialStateProperty.all(Colors.red),
-                ),
-              ),
-              ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.local_shipping_outlined),
-                label: const Text('DELIVER'),
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                  backgroundColor: MaterialStateProperty.all(Colors.green),
-                ),
-              ),
-            ],
+            children: order.status == "ACTIVE"
+                ? [
+                    OutlinedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.cancel_outlined),
+                      label: const Text('UN-DELIVER'),
+                      style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.white),
+                        backgroundColor: MaterialStateProperty.all(Colors.red),
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.local_shipping_outlined),
+                      label: const Text('DELIVER'),
+                      style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.white),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.green),
+                      ),
+                    ),
+                  ]
+                : [],
           ),
         ],
       ),

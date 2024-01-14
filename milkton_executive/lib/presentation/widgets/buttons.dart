@@ -23,17 +23,17 @@ class PrimaryButton extends StatelessWidget {
 }
 
 class SecondaryButton extends StatelessWidget {
-  SecondaryButton({
+  const SecondaryButton({
     super.key,
     required this.isActive,
     required this.title,
     required this.count,
     this.onPressed,
   });
+  final void Function()? onPressed;
   final bool isActive;
   final String title;
   final int count;
-  void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,8 @@ class SecondaryButton extends StatelessWidget {
                 const BorderSide(color: Colors.blueGrey),
               ),
             ),
-      child: Text("$title ($count)"),
+      child: Text(
+          "${title[0].toUpperCase()}${title.substring(1).toLowerCase()} ($count)"),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:milkton_executive/configs/graphql_client.dart';
+import 'package:milkton_executive/cubit/all_orders/all_orders_cubit.dart';
 import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
 import 'package:milkton_executive/cubit/status/status_cubit.dart';
 import 'package:milkton_executive/firebase_options.dart';
@@ -28,6 +29,7 @@ class MilktonExecutive extends StatelessWidget {
       providers: [
         BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
         BlocProvider<StatusCubit>(create: (context) => StatusCubit()),
+        BlocProvider<AllOrdersCubit>(create: (context) => AllOrdersCubit()),
       ],
       child: MaterialApp(
         title: 'Milkton Executive',
