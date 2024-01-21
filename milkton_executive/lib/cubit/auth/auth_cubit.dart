@@ -8,7 +8,14 @@ class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   late String _verificationId;
 
-  AuthCubit() : super(AuthInitial());
+  AuthCubit() : super(AuthInitial()) {
+    User? currentUser = _firebaseAuth.currentUser;
+    if (currentUser != null) {
+      emit(AuthLoggedInState(firebaseUser: currentUser));
+    } else {
+      emit(AuthLoggedOutState());
+    }
+  }
 
   // Method to verify phone number and send OTP
   Future<void> verifyPhoneNumber(String phoneNumber) async {
