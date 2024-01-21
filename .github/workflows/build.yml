@@ -5,6 +5,7 @@ on:
   
 env:
   ANDROID_SERVICE: ${{secrets.ANDROID_SERVICE}}
+  FIREBASE_OPTIONS: ${{secrets.FIREBASE_OPTIONS}}
   STORE_PASSWORD: ${{secrets.STORE_PASSWORD}}
   SIGNING_KEY: ${{secrets.SIGNING_KEY}}
   KEY_PASSWORD: ${{secrets.KEY_PASSWORD}}
@@ -29,6 +30,7 @@ jobs:
       - name: Configure Service account, Keystore and Signing Config
         run: |
           echo "$ANDROID_SERVICE" | base64 --decode > android/app/google-services.json
+          echo "$FIREBASE_OPTIONS" | base64 --decode > lib/firebase_options.dart
           echo "$SIGNING_KEY" | base64 --decode > android/app/key.jks
           echo "storeFile=key.jks" >> android/key.properties
           echo "keyAlias=$KEY_ALIAS" >> android/key.properties
