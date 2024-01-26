@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
@@ -13,6 +14,12 @@ class TopNavDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthState authState = context.read<AuthCubit>().state;
+    String phoneNumber = "";
+    if (authState is AuthLoggedInState) {
+      final User firebaseUser = authState.firebaseUser;
+      phoneNumber = firebaseUser.phoneNumber.toString();
+    }
     return Container(
       color: Colors.white,
       width: MediaQuery.of(context).size.width * 0.75,
@@ -21,18 +28,18 @@ class TopNavDrawer extends StatelessWidget {
         children: [
           Column(
             children: [
-              const DrawerHeader(
+              DrawerHeader(
                   child: Column(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 40,
                     backgroundImage: AssetImage('assets/images/xori.jpeg'),
                   ),
-                  Text(
+                  const Text(
                     "Abhibhaw Asthana",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  Text("+917754949803"),
+                  Text(phoneNumber),
                 ],
               )),
               const SizedBox(

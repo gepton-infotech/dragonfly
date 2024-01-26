@@ -43,9 +43,31 @@ class MilktonExecutive extends StatelessWidget {
           buildWhen: (previous, current) => current is! AuthInitial,
           builder: (context, state) {
             if (state is AuthLoggedInState) {
-              return GraphQLProvider(
-                client: getClient(),
-                child: const HomeScreen(),
+              return FutureBuilder<String?>(
+                future: state.idToken,
+                builder:
+                    (BuildContext context, AsyncSnapshot<String?> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    }
+
+                    String? idToken = snapshot.data;
+                    if (idToken != null) {
+                      return GraphQLProvider(
+                        client: getClient(
+                          "https://milkton.gepton.in/v2/api/",
+                          idToken, // Use the ID token here
+                        ),
+                        child: const HomeScreen(),
+                      );
+                    } else {
+                      return const Text('Error: Unable to get ID token');
+                    }
+                  }
+
+                  return const CircularProgressIndicator();
+                },
               );
             }
             return const LoginScreen();

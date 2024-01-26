@@ -13,7 +13,10 @@ final class AuthCodeVerifiedState extends AuthState {}
 
 final class AuthLoggedInState extends AuthState {
   final User firebaseUser;
-  AuthLoggedInState({required this.firebaseUser});
+  final Future<String?> idToken;
+
+  AuthLoggedInState({required this.firebaseUser})
+      : idToken = firebaseUser.getIdToken();
 }
 
 final class AuthLoggedOutState extends AuthState {}

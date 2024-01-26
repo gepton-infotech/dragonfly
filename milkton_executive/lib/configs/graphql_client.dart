@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-ValueNotifier<GraphQLClient> getClient() {
-  final HttpLink httpLink = HttpLink(
-    'https://milkton.gepton.in/v2/api/',
-  );
+ValueNotifier<GraphQLClient> getClient(
+    final String serverURL, final String token) {
+  final HttpLink httpLink = HttpLink(serverURL);
   final AuthLink authLink = AuthLink(
-    getToken: () async => 'Bearer Token',
+    getToken: () async => 'Bearer $token',
   );
 
   final Link link = authLink.concat(httpLink);
