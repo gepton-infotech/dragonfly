@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
+import 'package:milkton_executive/presentation/widgets/loading.dart';
 import 'package:milkton_executive/presentation/widgets/login_form.dart';
 import 'package:milkton_executive/presentation/widgets/otp_form.dart';
 
@@ -29,7 +30,7 @@ class LoginScreen extends StatelessWidget {
             },
             builder: (context, state) {
               if (state is AuthLoadingState) {
-                return const CircularProgressIndicator();
+                return const Loading();
               }
               if (state is AuthCodeSentState) {
                 return OtpForm();

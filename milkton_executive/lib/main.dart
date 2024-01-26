@@ -8,9 +8,11 @@ import 'package:milkton_executive/configs/remote_config.dart';
 import 'package:milkton_executive/cubit/all_orders/all_orders_cubit.dart';
 import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
 import 'package:milkton_executive/cubit/status/status_cubit.dart';
+import 'package:milkton_executive/cubit/user/user_cubit.dart';
 import 'package:milkton_executive/firebase_options.dart';
 import 'package:milkton_executive/presentation/screens/home.dart';
 import 'package:milkton_executive/presentation/screens/login.dart';
+import 'package:milkton_executive/presentation/widgets/loading.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +32,7 @@ class MilktonExecutive extends StatelessWidget {
       providers: [
         BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
         BlocProvider<StatusCubit>(create: (context) => StatusCubit()),
+        BlocProvider<UserCubit>(create: (context) => UserCubit()),
         BlocProvider<AllOrdersCubit>(create: (context) => AllOrdersCubit()),
       ],
       child: MaterialApp(
@@ -77,7 +80,7 @@ class MilktonExecutive extends StatelessWidget {
                           }
 
                           // While RemoteConfig is initializing, show a loading spinner
-                          return const CircularProgressIndicator();
+                          return const Loading();
                         },
                       );
                     } else {
@@ -85,7 +88,7 @@ class MilktonExecutive extends StatelessWidget {
                     }
                   }
 
-                  return const CircularProgressIndicator();
+                  return const Loading();
                 },
               );
             }

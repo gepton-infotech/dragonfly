@@ -1,7 +1,15 @@
-const String orderForToday = """
-query OrderForToday(\$id: String)
+const String appExecutive = """
+query appExecutive
   {
-    executive(id: \$id) {
+  appExecutive {
+    id
+    firstName
+    lastName
+    phone
+    photoURL
+    route{
+      routeName
+    }
     ordersForToday {
       id
       items
@@ -20,4 +28,5 @@ query OrderForToday(\$id: String)
     }
   }
 }
+
 """;

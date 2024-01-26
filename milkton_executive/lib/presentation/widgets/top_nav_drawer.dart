@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
+import 'package:milkton_executive/cubit/user/user_cubit.dart';
+import 'package:milkton_executive/models/executive.dart';
 import 'package:milkton_executive/presentation/screens/developer.dart';
 import 'package:milkton_executive/presentation/screens/product_summary.dart';
 import 'package:milkton_executive/presentation/screens/profile.dart';
@@ -14,12 +15,20 @@ class TopNavDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthState authState = context.read<AuthCubit>().state;
-    String phoneNumber = "";
-    if (authState is AuthLoggedInState) {
-      final User firebaseUser = authState.firebaseUser;
-      phoneNumber = firebaseUser.phoneNumber.toString();
+    final UserState userState = context.read<UserCubit>().state;
+    Executive executive = Executive(
+      id: "1",
+      firstName: "Gepton",
+      lastName: "",
+      phone: "9099199104",
+      photoURL:
+          "https://github.com/GEPTON-INFOTECH/GEPTON-INFOTECH/raw/main/branding/xori.jpeg",
+      routeName: "Gepton",
+    );
+    if (userState is UserFound) {
+      executive = userState.executive;
     }
+
     return Container(
       color: Colors.white,
       width: MediaQuery.of(context).size.width * 0.75,
@@ -31,15 +40,16 @@ class TopNavDrawer extends StatelessWidget {
               DrawerHeader(
                   child: Column(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 40,
-                    backgroundImage: AssetImage('assets/images/xori.jpeg'),
+                    backgroundImage: NetworkImage(executive.photoURL),
                   ),
-                  const Text(
-                    "Abhibhaw Asthana",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  Text(
+                    "${executive.firstName} ${executive.lastName}",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  Text(phoneNumber),
+                  Text(executive.phone),
                 ],
               )),
               const SizedBox(
@@ -88,7 +98,7 @@ class TopNavDrawer extends StatelessWidget {
                 height: 50,
               ),
               const Text("Milkton v5.0.0"),
-              Text(today),
+              Text("$today - ${executive.routeName}"),
               const SizedBox(
                 height: 20,
               ),

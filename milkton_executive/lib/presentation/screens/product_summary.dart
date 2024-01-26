@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milkton_executive/cubit/all_orders/all_orders_cubit.dart';
+import 'package:milkton_executive/presentation/widgets/loading.dart';
 
 class ProductSummaryScreen extends StatelessWidget {
   const ProductSummaryScreen({super.key});
@@ -35,6 +36,11 @@ class ProductSummaryScreen extends StatelessWidget {
                   }
                 });
               }
+              if (uniqueItems.isEmpty) {
+                return const Center(
+                  child: Text("No orders found"),
+                );
+              }
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -53,12 +59,12 @@ class ProductSummaryScreen extends StatelessWidget {
                           ),
                           trailing: Text(item["quantity"].toString()),
                           leading: const Icon(Icons.shopping_cart_outlined));
-                    })
+                    }),
                   ],
                 ),
               );
             } else {
-              return const Center(child: CircularProgressIndicator());
+              return const Loading();
             }
           },
         ));
