@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:milkton_executive/configs/graphql_client.dart';
+import 'package:milkton_executive/configs/remote_config.dart';
 import 'package:milkton_executive/cubit/all_orders/all_orders_cubit.dart';
 import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
 import 'package:milkton_executive/cubit/status/status_cubit.dart';
@@ -54,12 +55,30 @@ class MilktonExecutive extends StatelessWidget {
 
                     String? idToken = snapshot.data;
                     if (idToken != null) {
-                      return GraphQLProvider(
-                        client: getClient(
-                          "https://milkton.gepton.in/v2/api/",
-                          idToken, // Use the ID token here
-                        ),
-                        child: const HomeScreen(),
+                      final remoteConfig = RemoteConfig();
+                      return FutureBuilder<void>(
+                        future: remoteConfig.init(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<void> snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasError) {
+                              return Text(
+                                  'Error initializing RemoteConfig: ${snapshot.error}');
+                            }
+
+                            return GraphQLProvider(
+                              client: getClient(
+                                remoteConfig.prodURL,
+                                idToken, // Use the ID token here
+                              ),
+                              child: const HomeScreen(),
+                            );
+                          }
+
+                          // While RemoteConfig is initializing, show a loading spinner
+                          return const CircularProgressIndicator();
+                        },
                       );
                     } else {
                       return const Text('Error: Unable to get ID token');
