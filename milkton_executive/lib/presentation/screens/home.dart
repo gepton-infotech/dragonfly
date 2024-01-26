@@ -180,8 +180,8 @@ class HomeScreen extends StatelessWidget {
                                                     .title,
                                             title: buttonState["title"],
                                             count: buttonState["title"] == "ALL"
-                                                ? filteredOrders.length
-                                                : filteredOrders
+                                                ? orders.length
+                                                : orders
                                                     .where((order) =>
                                                         order['status'] ==
                                                         buttonState["title"])
