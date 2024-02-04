@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:milkton_executive/models/order.dart';
+import 'package:milkton_executive/presentation/widgets/deliver_button.dart';
+import 'package:milkton_executive/presentation/widgets/undeliver_button.dart';
 
 Color requiredColor(final String status) {
   return status == 'ACTIVE'
@@ -60,27 +62,8 @@ class OrderCard extends StatelessWidget {
             alignment: MainAxisAlignment.spaceBetween,
             children: order.status == "ACTIVE"
                 ? [
-                    OutlinedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.cancel_outlined),
-                      label: const Text('UN-DELIVER'),
-                      style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.white),
-                        backgroundColor: MaterialStateProperty.all(Colors.red),
-                      ),
-                    ),
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.local_shipping_outlined),
-                      label: const Text('DELIVER'),
-                      style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.white),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.green),
-                      ),
-                    ),
+                    const UndeliverButton(),
+                    DeliverButton(order: order),
                   ]
                 : [],
           ),
