@@ -62,7 +62,7 @@ class OrderCard extends StatelessWidget {
             alignment: MainAxisAlignment.spaceBetween,
             children: order.status == "ACTIVE"
                 ? [
-                    const UndeliverButton(),
+                    UndeliverButton(order: order),
                     DeliverButton(order: order),
                   ]
                 : [],

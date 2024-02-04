@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:milkton_executive/cubit/item/item_cubit.dart';
+import 'package:milkton_executive/cubit/user/user_cubit.dart';
+import 'package:milkton_executive/graphql/order_mutation.dart';
 import 'package:milkton_executive/models/order.dart';
+import 'package:milkton_executive/presentation/widgets/loading.dart';
 
 class DeliverButton extends StatelessWidget {
   const DeliverButton({
@@ -94,17 +98,60 @@ class DeliverButton extends StatelessWidget {
                     ),
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                            foregroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.green),
-                          ),
-                          onPressed: () {
-                            //TODO: Call delivered mutation here
+                      child: Mutation(
+                        options: MutationOptions(
+                          document: gql(markOrder),
+                          onCompleted: (data) {
+                            Navigator.of(context).pop();
                           },
-                          child: const Text('Deliver')),
+                        ),
+                        builder: (
+                          RunMutation runMutation,
+                          QueryResult? result,
+                        ) {
+                          if (result!.isLoading) {
+                            return const Loading();
+                          }
+                          return ElevatedButton(
+                            style: ButtonStyle(
+                              foregroundColor:
+                                  MaterialStateProperty.all(Colors.white),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.green),
+                            ),
+                            onPressed: () {
+                              if (context.read<UserCubit>().state
+                                  is UserFound) {
+                                final executive = (context
+                                        .read<UserCubit>()
+                                        .state as UserFound)
+                                    .executive;
+                                runMutation({
+                                  'id': order.id,
+                                  'status': 'DELIVERED',
+                                  'items': context
+                                      .read<ItemCubit>()
+                                      .state
+                                      .map((e) => {
+                                            'productID': e.productID,
+                                            'quantity': e.quantity,
+                                            'price': e.price,
+                                            'name': e.name,
+                                            'id': e.id,
+                                          })
+                                      .toList(),
+                                  'comment': order.comment.characters.isNotEmpty
+                                      ? '${order.comment} - Delivered from app by ${executive.firstName} ${executive.lastName}'
+                                      : 'Delivered from app by ${executive.firstName} ${executive.lastName}'
+                                });
+                              } else {
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            child: const Text("Deliver"),
+                          );
+                        },
+                      ),
                     )
                   ],
                 ),
