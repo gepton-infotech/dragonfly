@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:milkton_executive/cubit/item/item_cubit.dart';
 import 'package:milkton_executive/models/order.dart';
 
 class DeliverButton extends StatelessWidget {
@@ -13,6 +15,7 @@ class DeliverButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () {
+        context.read<ItemCubit>().setItems(order.items);
         showBottomSheet(
             constraints: const BoxConstraints(
               minWidth: double.infinity,
@@ -45,17 +48,49 @@ class DeliverButton extends StatelessWidget {
                     ),
                     const Divider(),
                     SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ...order.items.map((item) => ListTile(
-                                leading: const Icon(Icons.shopping_cart),
-                                title: Text(item.name),
-                                subtitle: Text("₹ ${item.price}"),
-                                trailing: Text("${item.quantity}",
-                                    style: const TextStyle(fontSize: 16.0)),
-                              )),
-                        ],
-                      ),
+                      child: BlocBuilder<ItemCubit, List<Item>>(
+                          bloc: context.read<ItemCubit>(),
+                          builder: (context, state) {
+                            return Column(
+                              children: [
+                                ...state.map((item) => ListTile(
+                                      leading: const Icon(Icons.shopping_cart),
+                                      title: Text(item.name),
+                                      subtitle: Text("₹ ${item.price}"),
+                                      trailing: SizedBox(
+                                        width: 150,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            IconButton(
+                                                onPressed: () {
+                                                  context
+                                                      .read<ItemCubit>()
+                                                      .decreaseQuantity(
+                                                          item.productID);
+                                                },
+                                                icon: const Icon(Icons.remove)),
+                                            Text(
+                                              "${item.quantity}",
+                                              style: const TextStyle(
+                                                  fontSize: 16.0),
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  context
+                                                      .read<ItemCubit>()
+                                                      .increaseQuantity(
+                                                          item.productID);
+                                                },
+                                                icon: const Icon(Icons.add)),
+                                          ],
+                                        ),
+                                      ),
+                                    )),
+                              ],
+                            );
+                          }),
                     ),
                     SizedBox(
                       width: double.infinity,

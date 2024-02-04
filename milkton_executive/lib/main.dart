@@ -7,6 +7,7 @@ import 'package:milkton_executive/configs/graphql_client.dart';
 import 'package:milkton_executive/configs/remote_config.dart';
 import 'package:milkton_executive/cubit/all_orders/all_orders_cubit.dart';
 import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
+import 'package:milkton_executive/cubit/item/item_cubit.dart';
 import 'package:milkton_executive/cubit/query/query_cubit.dart';
 import 'package:milkton_executive/cubit/search/search_cubit.dart';
 import 'package:milkton_executive/cubit/status/status_cubit.dart';
@@ -38,6 +39,7 @@ class MilktonExecutive extends StatelessWidget {
         BlocProvider<AllOrdersCubit>(create: (context) => AllOrdersCubit()),
         BlocProvider<SearchCubit>(create: (context) => SearchCubit()),
         BlocProvider<QueryCubit>(create: (context) => QueryCubit()),
+        BlocProvider<ItemCubit>(create: (context) => ItemCubit()),
       ],
       child: MaterialApp(
         title: 'Milkton Executive',
