@@ -14,5 +14,5 @@ class RemoteConfig {
     await remoteConfig.fetchAndActivate();
   }
 
-  String get prodURL => remoteConfig.getString('prod_url');
+  String get prodURL => remoteConfig.getString('multitenant_prod_url');
 }
