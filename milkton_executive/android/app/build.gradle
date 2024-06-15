@@ -1,5 +1,8 @@
 plugins {
     id "com.android.application"
+    // START: FlutterFire Configuration
+    id 'com.google.gms.google-services'
+    // END: FlutterFire Configuration
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -42,6 +45,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        multiDexEnabled true
         applicationId "com.gepton.milkton_executive"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
@@ -73,26 +77,12 @@ android {
         }
     }
 
-
-    // flavorDimensions "default"
-
-    // productFlavors {
-    //     demo {
-    //         dimension "default"
-    //         resValue "string", "app_name", "Milkton Executive Demo"
-    //         applicationIdSuffix "demo"
-    //     }
-    //     shreesurbhi {
-    //         dimension "default"
-    //         resValue "string", "app_name", "Shree Surbhi: Delivery Partner"
-    //         applicationIdSuffix "shreesurbhi"
-    //     }
-    // }
-
 }
 
 flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation 'androidx.multidex:multidex:2.0.1'
+}

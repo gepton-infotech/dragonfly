@@ -65,9 +65,9 @@ class UndeliverButton extends StatelessWidget {
                                 },
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.purple),
+                                WidgetStateProperty.all(Colors.purple),
                             foregroundColor:
-                                MaterialStateProperty.all(Colors.white),
+                                WidgetStateProperty.all(Colors.white),
                           ),
                           child: const Text("YES")),
                     ],
@@ -77,8 +77,8 @@ class UndeliverButton extends StatelessWidget {
           icon: const Icon(Icons.cancel_outlined),
           label: const Text("Undeliver"),
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.red),
-            foregroundColor: MaterialStateProperty.all(Colors.white),
+            backgroundColor: WidgetStateProperty.all(Colors.red),
+            foregroundColor: WidgetStateProperty.all(Colors.white),
           ),
         );
       },

@@ -12,8 +12,8 @@ class PrimaryButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {},
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent),
-        foregroundColor: MaterialStateColor.resolveWith(
+        backgroundColor: WidgetStateProperty.all(Colors.deepPurpleAccent),
+        foregroundColor: WidgetStateColor.resolveWith(
           (states) => Colors.white,
         ),
       ),
@@ -41,15 +41,14 @@ class SecondaryButton extends StatelessWidget {
       onPressed: onPressed,
       style: isActive
           ? ButtonStyle(
-              foregroundColor:
-                  MaterialStateProperty.all(Colors.deepPurpleAccent),
-              side: MaterialStateProperty.all(
+              foregroundColor: WidgetStateProperty.all(Colors.deepPurpleAccent),
+              side: WidgetStateProperty.all(
                 const BorderSide(color: Colors.deepPurpleAccent),
               ),
             )
           : ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(Colors.blueGrey),
-              side: MaterialStateProperty.all(
+              foregroundColor: WidgetStateProperty.all(Colors.blueGrey),
+              side: WidgetStateProperty.all(
                 const BorderSide(color: Colors.blueGrey),
               ),
             ),

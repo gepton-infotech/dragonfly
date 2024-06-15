@@ -115,9 +115,9 @@ class DeliverButton extends StatelessWidget {
                           return ElevatedButton(
                             style: ButtonStyle(
                               foregroundColor:
-                                  MaterialStateProperty.all(Colors.white),
+                                  WidgetStateProperty.all(Colors.white),
                               backgroundColor:
-                                  MaterialStateProperty.all(Colors.green),
+                                  WidgetStateProperty.all(Colors.green),
                             ),
                             onPressed: () {
                               if (context.read<UserCubit>().state
@@ -161,8 +161,8 @@ class DeliverButton extends StatelessWidget {
       icon: const Icon(Icons.local_shipping_outlined),
       label: const Text('DELIVER'),
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(Colors.white),
-        backgroundColor: MaterialStateProperty.all(Colors.green),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        backgroundColor: WidgetStateProperty.all(Colors.green),
       ),
     );
   }
