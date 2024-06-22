@@ -59,7 +59,9 @@ class MilktonExecutive extends StatelessWidget {
                     (BuildContext context, AsyncSnapshot<String?> snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
+                      return Scaffold(
+                          body:
+                              Center(child: Text('Error: ${snapshot.error}')));
                     }
 
                     String? idToken = snapshot.data;
@@ -72,8 +74,12 @@ class MilktonExecutive extends StatelessWidget {
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
                             if (snapshot.hasError) {
-                              return Text(
-                                  'Error initializing RemoteConfig: ${snapshot.error}');
+                              return Scaffold(
+                                body: Center(
+                                  child: Text(
+                                      'Error initializing RemoteConfig: ${snapshot.error}'),
+                                ),
+                              );
                             }
 
                             return GraphQLProvider(
@@ -90,7 +96,9 @@ class MilktonExecutive extends StatelessWidget {
                         },
                       );
                     } else {
-                      return const Text('Error: Unable to get ID token');
+                      return const Scaffold(
+                          body: Center(
+                              child: Text('Error: Unable to get ID token')));
                     }
                   }
 
