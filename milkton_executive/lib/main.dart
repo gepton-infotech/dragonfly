@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:milkton_executive/cubit/package_info/package_info_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:milkton_executive/configs/graphql_client.dart';
@@ -33,6 +34,7 @@ class MilktonExecutive extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthCubit>(create: (context) => AuthCubit()),
+        BlocProvider<PackageInfoCubit>(create: (context) => PackageInfoCubit()),
         BlocProvider<StatusCubit>(create: (context) => StatusCubit()),
         BlocProvider<UserCubit>(create: (context) => UserCubit()),
         BlocProvider<AllOrdersCubit>(create: (context) => AllOrdersCubit()),
@@ -52,6 +54,7 @@ class MilktonExecutive extends StatelessWidget {
           buildWhen: (previous, current) => current is! AuthInitial,
           builder: (context, state) {
             if (state is AuthLoggedInState) {
+              context.read<PackageInfoCubit>().getPackageInfo();
               return GraphQLProvider(
                 client: getClient(state.currentSession.accessToken),
                 child: const HomeScreen(),

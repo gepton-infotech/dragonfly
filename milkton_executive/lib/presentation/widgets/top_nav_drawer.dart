@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
+import 'package:milkton_executive/cubit/package_info/package_info_cubit.dart';
 import 'package:milkton_executive/cubit/user/user_cubit.dart';
 import 'package:milkton_executive/models/executive.dart';
 import 'package:milkton_executive/presentation/screens/developer.dart';
@@ -97,7 +98,16 @@ class TopNavDrawer extends StatelessWidget {
                 'assets/images/gepton.png',
                 height: 50,
               ),
-              const Text("Milkton v5.0.0"),
+              BlocBuilder<PackageInfoCubit, PackageInfoState>(
+                buildWhen: (previous, current) =>
+                    current is! PackageInfoInitial,
+                builder: (context, state) {
+                  if (state is PackageInfoFound) {
+                    return Text("Milkton v${state.packageInfo.version}");
+                  }
+                  return const Text("Milkton v5.0.0");
+                },
+              ),
               Text("$today - ${executive.routeName}"),
               const SizedBox(
                 height: 20,
