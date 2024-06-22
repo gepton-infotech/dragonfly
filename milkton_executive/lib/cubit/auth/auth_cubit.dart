@@ -1,18 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'auth_state.dart';
 
-class AuthCubit extends Cubit<AuthState> {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  late String _verificationId;
+final supabase = Supabase.instance.client;
 
+class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(AuthInitial()) {
-    User? currentUser = _firebaseAuth.currentUser;
+    User? currentUser = supabase.auth.currentUser;
     if (currentUser != null) {
-      emit(AuthLoggedInState(firebaseUser: currentUser));
+      emit(AuthLoggedInState(currentUser: currentUser));
     } else {
       emit(AuthLoggedOutState());
     }
@@ -22,42 +21,26 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> verifyPhoneNumber(String phoneNumber) async {
     emit(AuthLoadingState());
     try {
-      await _firebaseAuth.verifyPhoneNumber(
-        phoneNumber: "+91$phoneNumber",
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          // This callback will be invoked if the verification is done automatically
-          await _firebaseAuth.signInWithCredential(credential);
-          emit(AuthLoggedInState(firebaseUser: _firebaseAuth.currentUser!));
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          emit(AuthErrorState(error: e.toString()));
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          _verificationId = verificationId;
-          emit(AuthCodeSentState());
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          _verificationId = verificationId;
-        },
+      await supabase.auth.signInWithOtp(
+        phone: "+91$phoneNumber",
       );
+      emit(AuthCodeSentState(phoneNumber: phoneNumber));
     } catch (e) {
-      print(e.toString());
       emit(AuthErrorState(error: e.toString()));
     }
   }
 
   // Method to verify OTP and sign in
-  Future<void> verifyOtp(String otp) async {
+  Future<void> verifyOtp(String phoneNumber, String otp) async {
     emit(AuthLoadingState());
     try {
-      final credential = PhoneAuthProvider.credential(
-        verificationId: _verificationId,
-        smsCode: otp,
+      final AuthResponse res = await supabase.auth.verifyOTP(
+        type: OtpType.sms,
+        token: otp,
+        phone: "+91$phoneNumber",
       );
-      await _firebaseAuth.signInWithCredential(credential);
-      emit(AuthLoggedInState(firebaseUser: _firebaseAuth.currentUser!));
-    } on FirebaseAuthException catch (e) {
-      emit(AuthErrorState(error: e.code));
+      final User? currentUser = res.user;
+      emit(AuthLoggedInState(currentUser: currentUser!));
     } catch (e) {
       emit(AuthErrorState(error: e.toString()));
     }
@@ -66,7 +49,7 @@ class AuthCubit extends Cubit<AuthState> {
   // Method to sign out
   Future<void> signOut() async {
     emit(AuthLoadingState());
-    await _firebaseAuth.signOut();
+    await supabase.auth.signOut();
     emit(AuthLoggedOutState());
   }
 }

@@ -6,7 +6,8 @@ import 'package:milkton_executive/cubit/auth/auth_cubit.dart';
 const double sizedBoxHeight = 8.0;
 
 class OtpForm extends StatelessWidget {
-  OtpForm({super.key});
+  final String phoneNumber;
+  OtpForm({super.key, required this.phoneNumber});
   final TextEditingController _otpController = TextEditingController();
 
   @override
@@ -54,7 +55,9 @@ class OtpForm extends StatelessWidget {
                 );
                 return;
               }
-              context.read<AuthCubit>().verifyOtp(_otpController.text);
+              context
+                  .read<AuthCubit>()
+                  .verifyOtp(phoneNumber, _otpController.text);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.deepPurple, // background color

@@ -17,7 +17,7 @@ class LoginScreen extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: paddingValue),
-          child: BlocConsumer<AuthCubit, AuthState>(
+          child: BlocConsumer<AuthCubit, AuthStates>(
             listener: (context, state) {
               if (state is AuthErrorState) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
                 return const Loading();
               }
               if (state is AuthCodeSentState) {
-                return OtpForm();
+                return OtpForm(phoneNumber: state.phoneNumber);
               }
               return LoginForm();
             },

@@ -1,27 +1,27 @@
 part of 'auth_cubit.dart';
 
 @immutable
-sealed class AuthState {}
+sealed class AuthStates {}
 
-final class AuthInitial extends AuthState {}
+final class AuthInitial extends AuthStates {}
 
-final class AuthLoadingState extends AuthState {}
+final class AuthLoadingState extends AuthStates {}
 
-final class AuthCodeSentState extends AuthState {}
-
-final class AuthCodeVerifiedState extends AuthState {}
-
-final class AuthLoggedInState extends AuthState {
-  final User firebaseUser;
-  final Future<String?> idToken;
-
-  AuthLoggedInState({required this.firebaseUser})
-      : idToken = firebaseUser.getIdToken();
+final class AuthCodeSentState extends AuthStates {
+  final String phoneNumber;
+  AuthCodeSentState({required this.phoneNumber});
 }
 
-final class AuthLoggedOutState extends AuthState {}
+final class AuthCodeVerifiedState extends AuthStates {}
 
-final class AuthErrorState extends AuthState {
+final class AuthLoggedInState extends AuthStates {
+  final User currentUser;
+  AuthLoggedInState({required this.currentUser});
+}
+
+final class AuthLoggedOutState extends AuthStates {}
+
+final class AuthErrorState extends AuthStates {
   final String error;
   AuthErrorState({required this.error});
 }

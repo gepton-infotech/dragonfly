@@ -1,6 +1,5 @@
-#Google Services
-android/app/google-services.json
-/lib/firebase_options.dart
+#Supabase Creds
+env.dart
 # Miscellaneous
 *.class
 *.log
