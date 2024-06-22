@@ -9,9 +9,13 @@ final supabase = Supabase.instance.client;
 
 class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(AuthInitial()) {
-    User? currentUser = supabase.auth.currentUser;
+    final User? currentUser = supabase.auth.currentUser;
+    final Session? session = supabase.auth.currentSession;
     if (currentUser != null) {
-      emit(AuthLoggedInState(currentUser: currentUser));
+      emit(AuthLoggedInState(
+        currentUser: currentUser,
+        currentSession: session!,
+      ));
     } else {
       emit(AuthLoggedOutState());
     }
@@ -40,7 +44,11 @@ class AuthCubit extends Cubit<AuthStates> {
         phone: "+91$phoneNumber",
       );
       final User? currentUser = res.user;
-      emit(AuthLoggedInState(currentUser: currentUser!));
+      final Session? session = res.session;
+      emit(AuthLoggedInState(
+        currentUser: currentUser!,
+        currentSession: session!,
+      ));
     } catch (e) {
       emit(AuthErrorState(error: e.toString()));
     }

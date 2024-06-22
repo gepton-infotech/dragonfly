@@ -16,7 +16,8 @@ final class AuthCodeVerifiedState extends AuthStates {}
 
 final class AuthLoggedInState extends AuthStates {
   final User currentUser;
-  AuthLoggedInState({required this.currentUser});
+  final Session currentSession;
+  AuthLoggedInState({required this.currentUser, required this.currentSession});
 }
 
 final class AuthLoggedOutState extends AuthStates {}

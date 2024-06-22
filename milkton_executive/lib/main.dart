@@ -53,9 +53,7 @@ class MilktonExecutive extends StatelessWidget {
           builder: (context, state) {
             if (state is AuthLoggedInState) {
               return GraphQLProvider(
-                client: getClient(
-                  'TODO: token goes here', // Use the ID token here
-                ),
+                client: getClient(state.currentSession.accessToken),
                 child: const HomeScreen(),
               );
             }
