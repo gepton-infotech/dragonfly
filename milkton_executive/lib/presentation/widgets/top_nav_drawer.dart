@@ -6,7 +6,6 @@ import 'package:milkton_executive/cubit/user/user_cubit.dart';
 import 'package:milkton_executive/models/executive.dart';
 import 'package:milkton_executive/presentation/screens/developer.dart';
 import 'package:milkton_executive/presentation/screens/product_summary.dart';
-import 'package:milkton_executive/presentation/screens/profile.dart';
 import 'package:milkton_executive/utils/data.dart';
 
 class TopNavDrawer extends StatelessWidget {
@@ -62,15 +61,6 @@ class TopNavDrawer extends StatelessWidget {
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const ProductSummaryScreen();
-                  }));
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.person),
-                title: const Text('Profile'),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const Profile();
                   }));
                 },
               ),

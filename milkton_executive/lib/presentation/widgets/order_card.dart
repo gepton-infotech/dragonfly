@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:milkton_executive/models/order.dart';
 import 'package:milkton_executive/presentation/widgets/deliver_button.dart';
 import 'package:milkton_executive/presentation/widgets/undeliver_button.dart';
+import 'package:milkton_executive/utils/launch_url.dart';
 
 Color requiredColor(final String status) {
   return status == 'ACTIVE'
@@ -27,6 +28,7 @@ class OrderCard extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
+            onTap: () => openUrl("tel:+91${order.customer.phone}"),
             leading: const Icon(Icons.person),
             title:
                 Text('${order.customer.firstName} ${order.customer.lastName}'),
